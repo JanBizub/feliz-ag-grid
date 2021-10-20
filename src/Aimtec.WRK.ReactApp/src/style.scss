@@ -1,0 +1,28 @@
+﻿// -> Flexbox settings
+.box {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.box .box-row.header {
+    flex: 0 1 auto;
+}
+
+.box .box-row.content {
+    flex: 1 1 auto;
+}
+
+.box .box-row.content-middle {
+    flex: 1 1 auto;
+    margin-left: 5rem;
+    margin-right: 5rem;
+}
+
+.box .box-row.footer {
+    flex: 0 1 40px;
+}
+
+.ag-grid-container {
+    height: 800px;
+}

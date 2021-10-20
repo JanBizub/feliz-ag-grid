@@ -1,0 +1,22 @@
+source https://www.nuget.org/api/v2
+
+nuget FSharp.Core = 5.0.2
+
+group Fable
+    source https://www.nuget.org/api/v2
+    nuget Fable.Core = 3.2.8
+    nuget Fable.React 7.4.1
+    nuget Fable.Promise 2.2.0
+    nuget Fable.Fetch 2.2.0
+    nuget Fable.Elmish 3.1.0
+    nuget Fable.Elmish.React 3.0.1
+    nuget Fable.Elmish.Browser 3.0.4
+    nuget Fable.Elmish.Debugger 3.2.0
+    nuget Fable.Elmish.HMR 4.1.0
+    nuget Thoth.Json 5.1.0
+	nuget Thoth.Fetch 2.0.0
+	nuget Fable.SimpleHttp 3.0.0
+	nuget Fable.SimpleJson 3.19.0
+	nuget Feliz 1.51.0
+	nuget Feliz.Router 3.7.0
+	nuget Feliz.AgGrid

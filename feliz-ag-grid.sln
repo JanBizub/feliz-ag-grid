@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31808.319
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{BBBD4DB9-0449-4404-A0EB-4864218AD33B}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "AgGrid.ReactApp", "src\Aimtec.WRK.ReactApp\AgGrid.ReactApp.fsproj", "{5CA9215A-07D6-4E31-91BD-29A272BDB332}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Feliz.AgGrid", "src\Feliz.AgGrid\Feliz.AgGrid.fsproj", "{4FD57FFB-8525-4EB6-BF30-F55E82A15803}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "README", "README", "{D6341E7A-D1BA-4E92-842F-40703683BA4A}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5CA9215A-07D6-4E31-91BD-29A272BDB332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CA9215A-07D6-4E31-91BD-29A272BDB332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CA9215A-07D6-4E31-91BD-29A272BDB332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CA9215A-07D6-4E31-91BD-29A272BDB332}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FD57FFB-8525-4EB6-BF30-F55E82A15803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FD57FFB-8525-4EB6-BF30-F55E82A15803}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FD57FFB-8525-4EB6-BF30-F55E82A15803}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FD57FFB-8525-4EB6-BF30-F55E82A15803}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EC84BD5B-8F5F-4AF6-81E9-C4DF0DD5018E}
+	EndGlobalSection
+EndGlobal

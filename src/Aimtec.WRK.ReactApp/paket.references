@@ -1,0 +1,14 @@
+FSharp.Core
+
+group Fable
+  FSharp.Core
+  Fable.Core
+  Fable.Fetch
+  Fable.Promise
+  Fable.Elmish
+  Fable.Elmish.Debugger
+  Fable.Elmish.HMR
+  Fable.SimpleHttp
+  Fable.SimpleJson
+  Feliz
+  Feliz.Router

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="src\PeriodManager\**" />
+    <EmbeddedResource Remove="src\TGCEditor\**" />
+    <EmbeddedResource Remove="src\TimesheetManager\**" />
+    <EmbeddedResource Remove="src\UserManager\**" />
+    <EmbeddedResource Remove="src\UserTimesheet\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="paket.references" />
+    <Content Include="package.json" />
+    <None Include="webpack.config.js" />
+    <None Include="src\style.scss" />
+    <Compile Include="src\Types.fs" />
+    <Compile Include="src\State.fs" />
+    <Compile Include="src\View.fs" />
+    <Compile Include="src\Main.fs" />
+    <Content Include="web\assets\index.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Feliz.AgGrid\Feliz.AgGrid.fsproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

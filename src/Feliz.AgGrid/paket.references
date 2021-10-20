@@ -1,0 +1,5 @@
+FSharp.Core
+
+group Fable
+  Fable.Core
+  Feliz
