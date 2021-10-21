@@ -31,7 +31,7 @@ let update (msg: AppTypes.Msg) (state: AppTypes.AppState) =
     {state with GridData = rifles}, Cmd.none
 
   | NavigateHome ->
-    state, ("#/Home") |> Navigation.newUrl
+    state, ("#") |> Navigation.newUrl
 
   | NavigateSimple ->
     state, ("#/Simple") |> Navigation.newUrl
