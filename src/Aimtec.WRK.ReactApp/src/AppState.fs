@@ -1,10 +1,18 @@
 ﻿[<RequireQualifiedAccess>]
 module AppState
+open AppTypes
+open AppRouter
 open System
 open AppTypes
 open Elmish
+open Elmish.Navigation
 
-let init () = AppState.Empty, CreateGridData |> Cmd.ofMsg
+let init result =
+  let state, cmd = urlUpdate result AppState.Empty
+  state, Cmd.batch [
+    CreateGridData |> Cmd.ofMsg
+    cmd
+  ]
 
 let update (msg: AppTypes.Msg) (state: AppTypes.AppState) =
   match msg with
@@ -21,5 +29,18 @@ let update (msg: AppTypes.Msg) (state: AppTypes.AppState) =
     |]
 
     {state with GridData = rifles}, Cmd.none
+
+  | NavigateHome ->
+    state, ("#") |> Navigation.newUrl
+
+  | NavigateSimple ->
+    state, ("#/Simple") |> Navigation.newUrl
+
+  | NavigateRangeSelection ->
+    state, ("#/RangeSelection") |> Navigation.newUrl
+
+  | NavigateCellRenderer ->
+    state, ("#/CellRenderer") |> Navigation.newUrl
+
   | EraseGriData -> 
     state, Cmd.none

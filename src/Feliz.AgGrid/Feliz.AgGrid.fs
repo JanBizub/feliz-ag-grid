@@ -64,8 +64,8 @@ type ColumnDef<'row, 'value> =
   // todo: not working
   static member inline cellRenderer (v: string) = columnDefProp<'row, 'value> ("cellRenderer" ==> v)
   // todo: now working
-  static member inline cellRenderer (render:'value -> 'row -> ReactElement) = columnDefProp<'row, 'value> ("cellRenderer" ==> fun p -> CellRendererComponent(render, p))
-  static member inline cellRendererParams (v: obj) = columnDefProp<'row, 'value> ("cellRendererParams" ==> v)
+  static member cellRenderer (render:'value -> 'row -> ReactElement) = columnDefProp<'row, 'value> ("cellRenderer" ==> fun p -> CellRendererComponent(render, p))
+  static member cellRendererParams (v: obj) = columnDefProp<'row, 'value> ("cellRendererParams" ==> v)
 
   static member inline resizable (v:bool) = columnDefProp<'row, 'value> ("resizable" ==> v)
   static member inline editable (f:'row -> bool) = columnDefProp<'row, 'value> ("editable" ==> (fun p -> f p?data))
