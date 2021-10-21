@@ -1,6 +1,14 @@
 ﻿module AppTypes
 open System
 
+[<RequireQualifiedAccess>]
+type Route =
+  | Home
+  | Simple
+  | RangeSelection
+  | CellRenderer
+  | Invalid
+
 type Rifle = {
   Id             : Guid
   Name           : string
@@ -11,13 +19,19 @@ type Rifle = {
   }
 
 type AppState = { 
+  CurrentRoute   : Route
   GridData       : Rifle array
   }
   with
   static member Empty = {
+    CurrentRoute = Route.Home
     GridData     = [||]
   }
 
 type Msg =
   | CreateGridData
+  | NavigateHome
+  | NavigateSimple
+  | NavigateRangeSelection
+  | NavigateCellRenderer
   | EraseGriData
