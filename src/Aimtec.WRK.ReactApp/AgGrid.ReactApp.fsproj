@@ -18,6 +18,10 @@
     <Compile Include="src\AppTypes.fs" />
     <Compile Include="src\AppRouter.fs" />
     <Compile Include="src\AppState.fs" />
+    <Compile Include="src\Views\HomePageView.fs" />
+    <Compile Include="src\Views\SimpleGridView.fs" />
+    <Compile Include="src\Views\RangeSelectionView.fs" />
+    <Compile Include="src\Views\CellRendererView.fs" />
     <Compile Include="src\AppView.fs" />
     <Compile Include="src\Main.fs" />
     <Content Include="web\assets\index.html" />
