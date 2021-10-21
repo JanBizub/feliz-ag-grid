@@ -1,7 +1,7 @@
 ﻿module AppRouter
-open AppTypes
 open Elmish
 open Elmish.UrlParser
+open AppTypes
 
 let pageParser: Parser<Route -> Route, Route> =
   oneOf [

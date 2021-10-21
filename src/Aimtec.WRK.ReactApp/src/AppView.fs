@@ -1,11 +1,8 @@
 ﻿[<RequireQualifiedAccess>]
 module AppView
-open System
+open Fable.Core.JsInterop
 open Feliz
 open AppTypes
-open Feliz.AgGrid
-open Fable.Core.JsInterop
-open Elmish.Navigation
 
 importAll "./../node_modules/bootstrap/dist/css/bootstrap.min.css"
 

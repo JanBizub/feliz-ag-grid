@@ -1,9 +1,7 @@
 ﻿[<RequireQualifiedAccess>]
 module HomePageView
-open System
-open AppTypes
 open Feliz
-open Feliz.AgGrid
+open AppTypes
 
 [<ReactComponent>]
 let BtnCellRenderer props =

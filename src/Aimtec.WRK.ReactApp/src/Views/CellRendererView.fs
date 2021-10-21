@@ -1,9 +1,9 @@
 ﻿[<RequireQualifiedAccess>]
 module CellRendererView
 open System
-open AppTypes
 open Feliz
 open Feliz.AgGrid
+open AppTypes
 
 [<ReactComponent>]
 let BtnCellRenderer props =
@@ -27,12 +27,6 @@ let RenderAgGrid (state: AppState) dispatch =
         AgGrid.modules               [| clientSideRowModelModule |]
         AgGrid.rowData               state.GridData
         AgGrid.components            {| btnCellRenderer = BtnCellRenderer |}
-
-        // https://www.ag-grid.com/react-grid/range-selection-fill-handle/
-        AgGrid.rowSelection          Multiple
-        AgGrid.enableRangeSelection  true // todo: not working!
-        AgGrid.enableFillHandle      true
-        AgGrid.enableRangeHandle     true
 
         AgGrid.columnDefs [
           ColumnDef.create<Guid> [

@@ -1,11 +1,10 @@
 ﻿[<RequireQualifiedAccess>]
 module AppState
-open AppTypes
-open AppRouter
 open System
-open AppTypes
 open Elmish
 open Elmish.Navigation
+open AppTypes
+open AppRouter
 
 let init result =
   let state, cmd = urlUpdate result AppState.Empty
