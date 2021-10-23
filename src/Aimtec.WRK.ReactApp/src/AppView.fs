@@ -41,7 +41,7 @@ let Render (state: AppState) dispatch =
   let homePageV       = (state, dispatch) ||> HomePageView.RenderAgGrid
   let simpleV         = (state, dispatch) ||> SimpleGridView.RenderAgGrid
   let rangeSelectionV = (state, dispatch) ||> RangeSelectionView.RenderAgGrid
-  let cellRendererV   = (state, dispatch) ||> HomePageView.RenderAgGrid
+  let cellRendererV   = (state, dispatch) ||> CellRendererView.RenderAgGrid
 
   match state.CurrentRoute with
   | Route.Home -> React.fragment [

@@ -128,7 +128,7 @@ type AgGrid() =
   static member inline enableCellChangeFlash (v:bool) = agGridProp<'row>("enableCellChangeFlash" ==> v)
   static member inline cellFlashDelay (v:int) = agGridProp<'row>("cellFlashDelay" ==> v)
   static member inline animateRows (v:bool) = agGridProp<'row>("animateRows" ==> v)
-  static member enableRangeSelection (v:bool) = agGridProp<'row>("enableRangeSelection", v)
+  static member inline enableRangeSelection (v:bool) = agGridProp<'row>("enableRangeSelection", v)
   static member inline enableFillHandle (v:bool) = agGridProp<'row>("enableFillHandle" ==> v)
   static member inline enableRangeHandle (v:bool) = agGridProp<'row>("enableRangeHandle" ==> v)
 
