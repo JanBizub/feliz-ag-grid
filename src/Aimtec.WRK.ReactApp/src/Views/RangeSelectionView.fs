@@ -30,7 +30,7 @@ let RenderAgGrid (state: AppState) dispatch =
 
         // https://www.ag-grid.com/react-grid/range-selection-fill-handle/
         AgGrid.rowSelection          Multiple
-        AgGrid.enableRangeSelection  true // todo: not working!
+        AgGrid.enableRangeSelection  true
         AgGrid.enableFillHandle      true
         AgGrid.enableRangeHandle     true
 
