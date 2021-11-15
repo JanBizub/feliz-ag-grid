@@ -14,6 +14,7 @@
     <None Include="paket.references" />
     <Content Include="package.json" />
     <None Include="webpack.config.js" />
+    <Compile Include="src\GridComponents\BtnCellRenderer.fs" />
     <None Include="src\style.scss" />
     <Compile Include="src\AppTypes.fs" />
     <Compile Include="src\AppRouter.fs" />

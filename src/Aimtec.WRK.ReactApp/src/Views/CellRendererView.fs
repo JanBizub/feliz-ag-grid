@@ -5,20 +5,6 @@ open Feliz
 open Feliz.AgGrid
 open AppTypes
 
-type BtnCellRendererParams = {
-  Text      : string
-  Classes   : string array
-  OnClick   : Browser.Types.MouseEvent -> unit
-  }
-
-[<ReactComponent>]
-let BtnCellRenderer (props: BtnCellRendererParams) =
-  Html.button [
-    prop.classes props.Classes
-    prop.text    props.Text
-    prop.onClick props.OnClick
-  ]
-
 let console = Browser.Dom.console
 
 [<ReactComponent>]
@@ -27,7 +13,7 @@ let RenderAgGrid (state: AppState) dispatch =
     prop.classes [ ThemeClass.Alpine; "ag-grid-container" ]
     prop.children [
       AgGrid.grid [
-        AgGrid.frameworkComponents   {| btnCellRenderer = BtnCellRenderer |}
+        AgGrid.frameworkComponents   {| btnCellRenderer = BtnCellRenderer.Render |}
         AgGrid.reactUi               true
         AgGrid.immutableData         true
         AgGrid.modules               [| clientSideRowModelModule |]
