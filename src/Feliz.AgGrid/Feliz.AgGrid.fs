@@ -13,7 +13,7 @@ let agGrid                   : obj = import "AgGridReact" "@ag-grid-community/re
 let clientSideRowModelModule : obj = import "ClientSideRowModelModule" "@ag-grid-community/client-side-row-model"
 let allEnterpriseModules     : obj = import "AllModules" "@ag-grid-enterprise/all-modules"
 let licenceManager           : obj = import "LicenseManager" "@ag-grid-enterprise/all-modules"
-
+let rangeSelectionModule     : obj = import "RangeSelectionModule" "@ag-grid-enterprise/range-selection"
 
 // M
 importAll "@ag-grid-community/core/dist/styles/ag-grid.css"

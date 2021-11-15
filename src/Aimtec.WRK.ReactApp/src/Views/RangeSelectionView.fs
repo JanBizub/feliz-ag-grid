@@ -20,37 +20,44 @@ let RenderAgGrid (state: AppState) dispatch =
       AgGrid.grid [
         AgGrid.onGridReady (fun _ -> 
           Browser.Dom.console.log ("Grid Ready")
+          Browser.Dom.console.log  state.GridData
         )
 
         AgGrid.reactUi               true
         AgGrid.immutableData         true
-        AgGrid.modules               [| clientSideRowModelModule; allEnterpriseModules |]
+        AgGrid.modules               [| clientSideRowModelModule; allEnterpriseModules; rangeSelectionModule  |]
         AgGrid.rowData               state.GridData
 
         // https://www.ag-grid.com/react-grid/range-selection-fill-handle/
         AgGrid.rowSelection          Multiple
-        AgGrid.enableRangeSelection  false // todo: not working!
+        AgGrid.enableRangeSelection  true // todo: not working!
         AgGrid.enableFillHandle      true
         AgGrid.enableRangeHandle     true
 
         AgGrid.columnDefs [
           ColumnDef.create<Guid> [
-            ColumnDef.headerName "ID"
+            ColumnDef.headerName  "ID"
+            ColumnDef.field       "Id"
+            ColumnDef.editable    (fun _ -> true)
             ColumnDef.valueGetter (fun d -> d.Id)
           ]
 
           ColumnDef.create<string> [
-            ColumnDef.headerName "Name"
-            ColumnDef.editable (fun _ -> true)
+            ColumnDef.headerName  "Name"
+            ColumnDef.field       "Name"
+            ColumnDef.editable    (fun _ -> true)
             ColumnDef.valueGetter (fun d -> d.Name)
           ]
 
           ColumnDef.create<int> [
-            ColumnDef.headerName "Ammount"
+            ColumnDef.headerName  "Ammount"
+            ColumnDef.field       "Ammount"
+            ColumnDef.editable    (fun _ -> true)
             ColumnDef.valueGetter (fun d -> d.Ammount)
           ]
   
           ColumnDef.create<int option> [
+            ColumnDef.field      "AmmoInMagazine"
             ColumnDef.headerName "AmmoInMagazine"
             ColumnDef.valueGetter (fun d -> d.AmmoInMagazine)
           ]
