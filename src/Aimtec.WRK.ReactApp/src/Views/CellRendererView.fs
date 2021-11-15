@@ -5,58 +5,65 @@ open Feliz
 open Feliz.AgGrid
 open AppTypes
 
+type BtnCellRendererParams = {
+  Text      : string
+  Classes   : string array
+  OnClick   : Browser.Types.MouseEvent -> unit
+  }
+
 [<ReactComponent>]
-let BtnCellRenderer props =
+let BtnCellRenderer (props: BtnCellRendererParams) =
   Html.button [
-    prop.classes [| "btn"; "btn-primary"|]
-    prop.text "button text"
+    prop.classes props.Classes
+    prop.text    props.Text
+    prop.onClick props.OnClick
   ]
+
+let console = Browser.Dom.console
 
 [<ReactComponent>]
 let RenderAgGrid (state: AppState) dispatch =
   Html.div [
-    prop.classes [ ThemeClass.Balham; "ag-grid-container" ]
+    prop.classes [ ThemeClass.Alpine; "ag-grid-container" ]
     prop.children [
       AgGrid.grid [
-        AgGrid.onGridReady (fun _ -> 
-          Browser.Dom.console.log ("Grid Ready")
-        )
-
+        AgGrid.frameworkComponents   {| btnCellRenderer = BtnCellRenderer |}
         AgGrid.reactUi               true
         AgGrid.immutableData         true
         AgGrid.modules               [| clientSideRowModelModule |]
         AgGrid.rowData               state.GridData
-        AgGrid.components            {| btnCellRenderer = BtnCellRenderer |}
 
         AgGrid.columnDefs [
           ColumnDef.create<Guid> [
-            ColumnDef.headerName "ID"
+            ColumnDef.headerName  "ID"
             ColumnDef.valueGetter (fun d -> d.Id)
           ]
 
           ColumnDef.create<string> [
-            ColumnDef.headerName "Name"
-            ColumnDef.editable (fun _ -> true)
+            ColumnDef.headerName  "Name"
+            ColumnDef.editable    (fun _ -> true)
             ColumnDef.valueGetter (fun d -> d.Name)
           ]
 
           ColumnDef.create<int> [
-            ColumnDef.headerName "Ammount"
+            ColumnDef.headerName  "Ammount"
             ColumnDef.valueGetter (fun d -> d.Ammount)
           ]
   
           ColumnDef.create<int option> [
-            ColumnDef.headerName "AmmoInMagazine"
+            ColumnDef.headerName  "AmmoInMagazine"
             ColumnDef.valueGetter (fun d -> d.AmmoInMagazine)
           ]
 
           ColumnDef.create<unit> [
            ColumnDef.headerName         "DeleteGridLine"
-           ColumnDef.headerTooltip      "Delete Grid Line"
-           ColumnDef.width              55
-           //ColumnDef.cellRenderer       "btnCellRenderer"
-           //ColumnDef.cellRenderer       (fun value row  -> BtnCellRenderer value )
-           //ColumnDef.cellRendererParams {| onClick = (fun _ -> console.log "button clicked"); text = "Button Text" |}
+           ColumnDef.headerTooltip      "Delete"
+           ColumnDef.width              125
+           // Cell renderer
+           ColumnDef.cellRenderer       "btnCellRenderer"
+           ColumnDef.cellRendererParams {| Text    = "Delete";
+                                           Classes = [|"btn"; "btn-primary"|];
+                                           OnClick = (fun _ -> Browser.Dom.console.log "Button clicked") |}
           ]
         ]
       ]

@@ -61,12 +61,9 @@ type ColumnDef<'row, 'value> =
   // +
   static member inline headerTooltip (v: string) = columnDefProp<'row, 'value> ("headerTooltip" ==> v)
   static member inline field (v: string) = columnDefProp<'row, 'value> ("field" ==> v)
-  // todo: not working
   static member inline cellRenderer (v: string) = columnDefProp<'row, 'value> ("cellRenderer" ==> v)
-  // todo: now working
-  static member cellRenderer (render:'value -> 'row -> ReactElement) = columnDefProp<'row, 'value> ("cellRenderer" ==> fun p -> CellRendererComponent(render, p))
-  static member cellRendererParams (v: obj) = columnDefProp<'row, 'value> ("cellRendererParams" ==> v)
-
+  static member inline cellRendererParams (v: obj) = columnDefProp<'row, 'value> ("cellRendererParams" ==> v)
+  
   static member inline resizable (v:bool) = columnDefProp<'row, 'value> ("resizable" ==> v)
   static member inline editable (f:'row -> bool) = columnDefProp<'row, 'value> ("editable" ==> (fun p -> f p?data))
   static member inline filter (v:RowFilter) = columnDefProp<'row, 'value> ("filter" ==> v.FilterText)
@@ -121,6 +118,7 @@ let agGridProp<'row> (x:obj) = unbox<IAgGridProp<'row>> x
 [<Erase>]
 type AgGrid() =
   // +
+  static member inline frameworkComponents (v:obj) = agGridProp<'row>("frameworkComponents", v)
   static member inline components (v:obj) = agGridProp<'row>("components", v)
   static member inline modules (modules:obj array) = agGridProp<'row>("modules", modules)
   static member inline reactUi (v:bool) = agGridProp<'row>("reactUi" ==> v)
