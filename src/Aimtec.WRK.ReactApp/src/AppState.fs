@@ -43,3 +43,10 @@ let update (msg: AppTypes.Msg) (state: AppTypes.AppState) =
 
   | EraseGriData -> 
     state, Cmd.none
+
+  | RifleChanged rifle ->
+    let updatedRifles =
+      state.GridData
+      |> Array.map (fun t -> if t.Id = rifle.Id then rifle else t)
+
+    { state with GridData = updatedRifles}, Cmd.none

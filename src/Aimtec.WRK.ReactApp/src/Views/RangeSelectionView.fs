@@ -21,7 +21,7 @@ let RenderAgGrid (state: AppState) dispatch =
         AgGrid.onGridReady (fun _ -> 
           Browser.Dom.console.log ("Grid Ready")
         )
-
+        AgGrid.onCellValueChanged    (fun r -> r |> RifleChanged |> dispatch)
         AgGrid.reactUi               true
         AgGrid.immutableData         true
         AgGrid.modules               [| clientSideRowModelModule; allEnterpriseModules |]
@@ -41,8 +41,8 @@ let RenderAgGrid (state: AppState) dispatch =
 
           ColumnDef.create<string> [
             ColumnDef.headerName "Name"
+            ColumnDef.field      "Name"
             ColumnDef.editable (fun _ -> true)
-            ColumnDef.valueGetter (fun d -> d.Name)
           ]
 
           ColumnDef.create<int> [

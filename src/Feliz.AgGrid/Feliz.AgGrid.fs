@@ -13,7 +13,8 @@ let agGrid                   : obj = import "AgGridReact" "@ag-grid-community/re
 let clientSideRowModelModule : obj = import "ClientSideRowModelModule" "@ag-grid-community/client-side-row-model"
 let allEnterpriseModules     : obj = import "AllModules" "@ag-grid-enterprise/all-modules"
 let licenceManager           : obj = import "LicenseManager" "@ag-grid-enterprise/all-modules"
-
+let rangeSelectionModule     : obj = import "RangeSelectionModule" "@ag-grid-enterprise/range-selection"
+let clipboardModule          : obj = import "ClipboardModule" "@ag-grid-enterprise/clipboard"
 
 // M
 importAll "@ag-grid-community/core/dist/styles/ag-grid.css"
@@ -55,18 +56,15 @@ let openClosed = function | true -> "open" | false -> "closed"
 let CellRendererComponent<'value,'row> (render:'value -> 'row -> ReactElement, p) =
   render p?value p?data
 
-
 [<Erase>]
 type ColumnDef<'row, 'value> =
   // +
   static member inline headerTooltip (v: string) = columnDefProp<'row, 'value> ("headerTooltip" ==> v)
   static member inline field (v: string) = columnDefProp<'row, 'value> ("field" ==> v)
-  // todo: not working
+  static member inline cellEditor (v: string) = columnDefProp<'row, 'value> ("cellEditor" ==> v)
+  static member inline cellEditorParams (v: obj) = columnDefProp<'row, 'value> ("cellEditorParams" ==> v)
   static member inline cellRenderer (v: string) = columnDefProp<'row, 'value> ("cellRenderer" ==> v)
-  // todo: now working
-  static member cellRenderer (render:'value -> 'row -> ReactElement) = columnDefProp<'row, 'value> ("cellRenderer" ==> fun p -> CellRendererComponent(render, p))
-  static member cellRendererParams (v: obj) = columnDefProp<'row, 'value> ("cellRendererParams" ==> v)
-
+  static member inline cellRendererParams (v: obj) = columnDefProp<'row, 'value> ("cellRendererParams" ==> v)
   static member inline resizable (v:bool) = columnDefProp<'row, 'value> ("resizable" ==> v)
   static member inline editable (f:'row -> bool) = columnDefProp<'row, 'value> ("editable" ==> (fun p -> f p?data))
   static member inline filter (v:RowFilter) = columnDefProp<'row, 'value> ("filter" ==> v.FilterText)
@@ -77,6 +75,7 @@ type ColumnDef<'row, 'value> =
       // return false to prevent the grid from immediately refreshing
       false))
   static member inline valueFormatter (v:'value -> 'row -> string) = columnDefProp<'row, 'value> ("valueFormatter" ==> (fun p -> v p?value p?data))
+  static member inline valueParser (v:'value -> 'row -> string) = columnDefProp<'row, 'value> ("valueParser" ==> (fun p -> v p?value p?data))
   static member cellRendererFramework (render:'value -> 'row -> ReactElement) = columnDefProp<'row, 'value> ("cellRendererFramework" ==> fun p -> CellRendererComponent(render, p))
   static member inline width (v:int) = columnDefProp<'row, 'value> ("width" ==> v)
   static member inline minWidth (v:int) = columnDefProp<'row, 'value> ("minWidth" ==> v)
@@ -121,6 +120,8 @@ let agGridProp<'row> (x:obj) = unbox<IAgGridProp<'row>> x
 [<Erase>]
 type AgGrid() =
   // +
+  static member inline rowClassRules (rules: (string*('row -> bool)) list) = agGridProp<'row>("rowClassRules" ==> (rules |> List.map (fun (className, rule) -> className ==> fun p -> rule p?data)|> createObj))
+  static member inline frameworkComponents (v:obj) = agGridProp<'row>("frameworkComponents", v)
   static member inline components (v:obj) = agGridProp<'row>("components", v)
   static member inline modules (modules:obj array) = agGridProp<'row>("modules", modules)
   static member inline reactUi (v:bool) = agGridProp<'row>("reactUi" ==> v)
@@ -134,6 +135,10 @@ type AgGrid() =
 
   static member inline onSelectionChanged (callback:'row array -> unit) = agGridProp<'row>("onSelectionChanged", fun x -> x?api?getSelectedRows() |> callback)
   static member inline onCellValueChanged callback = agGridProp<'row>("onCellValueChanged", fun x -> callback x?data)
+  static member inline onPasteStart callback = agGridProp<'row>("onPasteStart", callback)
+  static member inline onPasteEnd callback = agGridProp<'row>("onPasteEnd", callback)
+  // todo: changed. Might be done better
+  static member inline onCellEditingStopped callback = agGridProp<'row>("onCellEditingStopped", fun x -> callback x?node?lastChild x?data)
   static member inline onRowClicked (handler:'value -> 'row -> unit) = agGridProp<'row> ("onRowClicked" ==> (fun p -> handler p?value p?data))
   static member inline singleClickEdit (v:bool) = agGridProp<'row>("singleClickEdit" ==> v)
   static member inline rowDeselection (v:bool) = agGridProp<'row>("rowDeselection", v)
@@ -160,25 +165,27 @@ type AgGrid() =
   static member inline paginationPageSize (pageSize:int) = agGridProp<'row>("paginationPageSize", pageSize)
   static member inline paginationAutoPageSize (v:bool) = agGridProp<'row>("paginationAutoPageSize", v)
   static member inline pagination (v:bool) = agGridProp<'row>("pagination", v)
-  static member onGridReady (callback:_ -> unit) = // This can't be inline otherwise Fable produces invalid JS
-      let onGridReady = fun ev ->
-          {| AutoSizeAllColumns =
-              fun () ->
-                  // Runs the column autoSize in a 0ms timeout so that the cellRendererFramework cells render
-                  // before the grid calculates how large each cell is
-                  JS.setTimeout (fun () ->
-                      let colIds = ev?columnApi?getAllColumns() |> Array.map (fun x -> x?colId)
-                      ev?columnApi?autoSizeColumns(colIds)) 0 |> ignore
-             Export = fun () -> ev?api?exportDataAsCsv(obj()) |}
-          |> callback
-      agGridProp<'row>("onGridReady", onGridReady)
+  static member inline onGridReady callback = agGridProp<'row>("onGridReady", fun x -> callback x?api)
+  //static member onGridReady (callback:_ -> unit) = // This can't be inline otherwise Fable produces invalid JS
+  //    let onGridReady = fun ev ->
+  //        {| AutoSizeAllColumns =
+  //            fun () ->
+  //                // Runs the column autoSize in a 0ms timeout so that the cellRendererFramework cells render
+  //                // before the grid calculates how large each cell is
+  //                JS.setTimeout (fun () ->
+  //                    let colIds = ev?columnApi?getAllColumns() |> Array.map (fun x -> x?colId)
+  //                    ev?columnApi?autoSizeColumns(colIds)) 0 |> ignore
+  //           Export = fun () -> ev?api?exportDataAsCsv(obj()) |}
+  //        |> callback
+  //    agGridProp<'row>("onGridReady", onGridReady)
+
+  
   static member inline key (v:string) = agGridProp<'row> (prop.key v)
   static member inline key (v:int) = agGridProp<'row> (prop.key v)
   static member inline key (v:System.Guid) = agGridProp<'row> (prop.key v)
 
   static member inline grid<'row> (props:IAgGridProp<'row> seq) = Interop.reactApi.createElement (agGrid, createObj !!props)
 
-// + Enterprise
-[<Erase>]
+[<Import("LicenseManager", from="@ag-grid-enterprise/all-modules")>]
 type LicenceManager () =
-  static member inline setLicenseKey (k:string) = agGridProp<'row>("setLicenseKey", k)
+  static member inline setLicenseKey (k:string) = jsNative

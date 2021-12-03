@@ -35,3 +35,4 @@ type Msg =
   | NavigateRangeSelection
   | NavigateCellRenderer
   | EraseGriData
+  | RifleChanged of Rifle
