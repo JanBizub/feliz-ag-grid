@@ -29,6 +29,7 @@ type AppState = {
   }
 
 type Msg =
+  | DoStateChanges of Rifle
   | CreateGridData
   | NavigateHome
   | NavigateSimple

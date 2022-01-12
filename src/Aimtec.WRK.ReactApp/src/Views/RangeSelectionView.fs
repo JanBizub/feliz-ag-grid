@@ -18,13 +18,15 @@ let RenderAgGrid (state: AppState) dispatch =
     prop.classes [ ThemeClass.Balham; "ag-grid-container" ]
     prop.children [
       AgGrid.grid [
-        AgGrid.onGridReady (fun _ -> 
-          Browser.Dom.console.log ("Grid Ready")
-          Browser.Dom.console.log  state.GridData
+        AgGrid.onCellValueChanged (fun r -> r |> DoStateChanges |> dispatch)
+        AgGrid.onGridReady (fun _ -> ()
+          //Browser.Dom.console.log ("Grid Ready")
+          //Browser.Dom.console.log  state.GridData
         )
 
-        AgGrid.reactUi               true
+        //AgGrid.reactUi               true
         AgGrid.immutableData         true
+        AgGrid.getRowNodeId           (fun (r: Rifle) -> r.Id)
         AgGrid.modules               [| clientSideRowModelModule; allEnterpriseModules; rangeSelectionModule  |]
         AgGrid.rowData               state.GridData
 
@@ -60,6 +62,16 @@ let RenderAgGrid (state: AppState) dispatch =
             ColumnDef.field      "AmmoInMagazine"
             ColumnDef.headerName "AmmoInMagazine"
             ColumnDef.valueGetter (fun d -> d.AmmoInMagazine)
+          ]
+
+          ColumnDef.create<decimal> [
+            ColumnDef.headerName "Caliber"
+            ColumnDef.valueGetter (fun d -> d.Caliber)
+          ]
+
+          ColumnDef.create<DateTime> [
+            ColumnDef.headerName "DateServiced"
+            ColumnDef.valueGetter (fun d -> d.DateServiced)
           ]
         ]
       ]

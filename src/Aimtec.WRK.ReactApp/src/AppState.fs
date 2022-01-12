@@ -29,6 +29,12 @@ let update (msg: AppTypes.Msg) (state: AppTypes.AppState) =
 
     {state with GridData = rifles}, Cmd.none
 
+  | DoStateChanges rifle ->
+    let updatedData = 
+      state.GridData
+      |> Array.map (fun r -> if r.Id = rifle.Id then rifle else r)
+    { state with GridData = updatedData } , Cmd.none
+
   | NavigateHome ->
     state, ("#") |> Navigation.newUrl
 
